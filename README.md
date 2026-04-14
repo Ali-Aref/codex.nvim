@@ -7,6 +7,14 @@
 
 Neovim companion for the **Codex CLI**: open Codex in a regular **split terminal** (horizontal or vertical only) and send buffer text from the editor.
 
+<a href="https://i.ibb.co/4Z5NfdP2/Screenshot-20260414-140758.png">
+  <img
+    src="https://i.ibb.co/rG1yts43/Screenshot-20260414-140758.png"
+    alt="aliaref codex.nvim"
+    style="border-radius: 30px;"
+  />
+</a>
+
 ## Table of Contents
 
 - [Requirements](#requirements)
