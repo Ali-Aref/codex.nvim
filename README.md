@@ -23,6 +23,7 @@ Add a plugin spec (for example under `lua/plugins/codex.lua` if you import `lua/
       split = "vertical", -- "horizontal" | "vertical"
       size = 0.3,
       codex_cmd = { "codex" },
+      -- escape_codex = "jj", -- optional Terminal-mode escape → <C-\><C-n>
     })
   end,
   keys = {
@@ -71,14 +72,16 @@ Defaults:
   codex_cmd = { "codex" },
   focus_after_send = false,
   auto_status_delay_ms = 0,
+  -- escape_codex = "jj", -- optional: Terminal-mode lhs to send <C-\><C-n> (omit to disable)
 }
 ```
 
+- **escape_codex**: optional string. When set (non-empty), registers a **global** Terminal-mode mapping from that lhs to `<C-\><C-n>` (leave terminal mode). Use any lhs Neovim accepts, for example `"jj"` or `"<Esc>"`. Omit the key or leave it unset to register nothing. If you change the value between `setup()` calls, the previous mapping is removed.
 - **split** `horizontal`: `botright` + height (bottom terminal-style split).
 - **split** `vertical`: `:vsp` then `vertical resize` to `size` (new column, Codex buffer shown there).
 - **size**: for splits, a fraction `≤ 1` is a percentage of lines/columns; `> 1` is a fixed height/width.
 - **focus_after_send**: after `send(...)` (not `send_selection`), jump to the Codex window and enter terminal mode when the window is open.
-- `**send_selection()`** always opens the Codex window if it was hidden, pastes the payload without pressing Enter for you, then focuses the terminal so you can review and press Enter in the CLI yourself.
+- **`send_selection()`** always opens the Codex window if it was hidden, pastes the payload without pressing Enter for you, then focuses the terminal so you can review and press Enter in the CLI yourself.
 - **auto_status_delay_ms**: if `> 0`, after start sends `/status` then Enter after that delay (optional).
 
 Global config before `setup()` (optional). From Lua in `init.lua`:

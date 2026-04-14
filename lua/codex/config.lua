@@ -8,6 +8,8 @@ local defaults = {
   focus_after_send = false,
   ---If > 0, after job start sends `/status` then Enter after this many ms (reference behavior; optional).
   auto_status_delay_ms = 0,
+  ---Optional: lhs for Terminal mode to leave insert-terminal (same as `<C-\\><C-n>`). Example: `"jj"` or `"<Esc>"`. If nil/omitted, no mapping is created.
+  escape_codex = nil,
 }
 
 local options = vim.deepcopy(defaults)
