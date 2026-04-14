@@ -1,6 +1,23 @@
 # codex.nvim
 
+[![Neovim](https://img.shields.io/badge/Neovim-0.8%2B-57A143?logo=neovim&logoColor=white)](https://neovim.io/)
+[![License](https://img.shields.io/github/license/Ali-Aref/codex.nvim)](./LICENSE)
+[![Stars](https://img.shields.io/github/stars/Ali-Aref/codex.nvim?style=social)](https://github.com/Ali-Aref/codex.nvim/stargazers)
+[![Issues](https://img.shields.io/github/issues/Ali-Aref/codex.nvim)](https://github.com/Ali-Aref/codex.nvim/issues)
+
 Neovim companion for the **Codex CLI**: open Codex in a regular **split terminal** (horizontal or vertical only) and send buffer text from the editor.
+
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Installation](#installation)
+  - [lazy.nvim](#lazynvim)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Behavior notes](#behavior-notes)
+- [Development / testing loop](#development--testing-loop)
+  - [Smoke checks](#smoke-checks)
+- [License](#license)
 
 ## Requirements
 
@@ -120,3 +137,5 @@ Then:
 ## License
 
 MIT
+
+Contributions are welcome. Feel free to open an issue or submit a pull request.
