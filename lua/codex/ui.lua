@@ -53,9 +53,14 @@ function M.open_window(conf, bufnr)
     vim.cmd("botright " .. height .. "split")
     winid = api.nvim_get_current_win()
   elseif layout == "vertical" then
-    -- `:vsp` into a new column, then attach Codex terminal buffer and set width.
+    -- New column left or right of the current window (does not depend on global 'splitright').
     local width = normalized_size(conf.size or 0.3, vim.o.columns, math.floor(vim.o.columns * 0.3))
-    vim.cmd("vsp")
+    local side = conf.vertical_side or "right"
+    if side == "left" then
+      vim.cmd("leftabove vsplit")
+    else
+      vim.cmd("rightbelow vsplit")
+    end
     winid = api.nvim_get_current_win()
     api.nvim_win_set_buf(winid, bufnr)
     api.nvim_set_current_win(winid)

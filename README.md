@@ -38,6 +38,7 @@ Add a plugin spec (for example under `lua/plugins/codex.lua` if you import `lua/
   config = function()
     require("codex").setup({
       split = "vertical", -- "horizontal" | "vertical"
+      vertical_side = "right", -- "left" | "right" when vertical
       size = 0.3,
       codex_cmd = { "codex" },
       -- escape_codex = "jj", -- optional Terminal-mode escape → <C-\><C-n>
@@ -85,6 +86,7 @@ Defaults:
 ```lua
 {
   split = "horizontal", -- "horizontal" | "vertical"
+  vertical_side = "right", -- "left" | "right" (only for split = "vertical")
   size = 0.3,
   codex_cmd = { "codex" },
   focus_after_send = false,
@@ -95,7 +97,8 @@ Defaults:
 
 - **escape_codex**: optional string. When set (non-empty), registers a **global** Terminal-mode mapping from that lhs to `<C-\><C-n>` (leave terminal mode). Use any lhs Neovim accepts, for example `"jj"` or `"<Esc>"`. Omit the key or leave it unset to register nothing. If you change the value between `setup()` calls, the previous mapping is removed.
 - **split** `horizontal`: `botright` + height (bottom terminal-style split).
-- **split** `vertical`: `:vsp` then `vertical resize` to `size` (new column, Codex buffer shown there).
+- **split** `vertical`: `:leftabove vsplit` or `:rightbelow vsplit` (see **vertical_side**), then `vertical resize` to **size** (Codex column beside the editor).
+- **vertical_side**: `"left"` or `"right"`. Puts the Codex column **left** or **right** of the window that was current when Codex opened. Ignored when **split** is `horizontal`. Invalid values fall back to `"right"`.
 - **size**: for splits, a fraction `≤ 1` is a percentage of lines/columns; `> 1` is a fixed height/width.
 - **focus_after_send**: after `send(...)` (not `send_selection`), jump to the Codex window and enter terminal mode when the window is open.
 - **`send_selection()`** always opens the Codex window if it was hidden, pastes the payload without pressing Enter for you, then focuses the terminal so you can review and press Enter in the CLI yourself.

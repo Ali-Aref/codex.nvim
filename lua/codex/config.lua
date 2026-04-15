@@ -3,6 +3,8 @@ local M = {}
 local defaults = {
   ---Only regular split windows (no floating). Vertical uses `:vsp` then `vertical resize`.
   split = "horizontal", -- "horizontal" | "vertical"
+  ---When split is "vertical", place the Codex column left or right of the current window (`:leftabove vsplit` / `:rightbelow vsplit`).
+  vertical_side = "right", -- "left" | "right"
   size = 0.3,
   codex_cmd = { "codex" },
   focus_after_send = false,
@@ -29,6 +31,15 @@ function M.setup(opts)
       vim.log.levels.WARN
     )
     options.split = "horizontal"
+  end
+  if options.vertical_side ~= "left" and options.vertical_side ~= "right" then
+    vim.notify(
+      ("codex.nvim: vertical_side=%s is not supported (use left or right); using right"):format(
+        tostring(options.vertical_side)
+      ),
+      vim.log.levels.WARN
+    )
+    options.vertical_side = "right"
   end
   return options
 end
