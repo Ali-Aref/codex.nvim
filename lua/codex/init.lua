@@ -14,13 +14,13 @@ local function sync_escape_terminal_keymap(conf)
   end
   local lhs = conf.escape_codex
   if type(lhs) == "string" and lhs ~= "" then
-    vim.keymap.set("t", lhs, "<C-\\><C-n>", { desc = "Codex: exit terminal mode" })
+    vim.keymap.set("t", lhs, "<C-\\><C-n>", { desc = "AI CLI: exit terminal mode" })
     _escape_terminal_lhs = lhs
   end
 end
 
 local function ensure_vim_leave_autocmd()
-  local group = api.nvim_create_augroup("CodexVimLeave", { clear = true })
+  local group = api.nvim_create_augroup("AiCliVimLeave", { clear = true })
   api.nvim_create_autocmd("VimLeavePre", {
     group = group,
     callback = function()
@@ -37,26 +37,46 @@ function M.setup(opts)
   return config.get()
 end
 
-function M.open()
-  actions.open()
+---@param provider_name string|nil
+function M.open(provider_name)
+  actions.open(provider_name)
 end
 
-function M.close()
-  actions.close()
+---@param provider_name string|nil
+function M.close(provider_name)
+  actions.close(provider_name)
 end
 
-function M.toggle()
-  actions.toggle()
+---@param provider_name string|nil
+function M.toggle(provider_name)
+  actions.toggle(provider_name)
 end
 
 ---@param text string
 ---@param opts table|nil
-function M.send(text, opts)
-  actions.send(text, opts)
+---@param provider_name string|nil
+function M.send(text, opts, provider_name)
+  actions.send(text, opts, provider_name)
 end
 
-function M.send_selection()
-  actions.send_selection()
+---@param provider_name string|nil
+function M.send_selection(provider_name)
+  actions.send_selection(provider_name)
+end
+
+---@param provider_name string
+---@return boolean
+function M.select_provider(provider_name)
+  return actions.select_provider(provider_name)
+end
+
+function M.pick_provider()
+  actions.pick_provider()
+end
+
+---@return string|nil
+function M.get_current_provider()
+  return actions.get_current_provider()
 end
 
 M.actions = actions

@@ -95,7 +95,7 @@ function M.open_window(conf, bufnr)
     state.layout = layout
     return winid, bufnr
   else
-    error("codex.nvim: invalid split option '" .. tostring(layout) .. "'")
+    error("ai-cli.nvim: invalid split option '" .. tostring(layout) .. "'")
   end
 
   api.nvim_win_set_buf(winid, bufnr)
