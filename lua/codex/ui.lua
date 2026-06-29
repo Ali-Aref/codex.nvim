@@ -25,6 +25,25 @@ local function normalized_size(size, total, fallback)
   return size
 end
 
+local function centered_float_opts(conf)
+  local float = conf.float or {}
+  local width = normalized_size(float.width, vim.o.columns, math.floor(vim.o.columns * 0.9))
+  local height = normalized_size(
+    float.height,
+    vim.o.lines - vim.o.cmdheight,
+    math.floor((vim.o.lines - vim.o.cmdheight) * 0.85)
+  )
+  return {
+    relative = "editor",
+    width = width,
+    height = height,
+    row = math.max(math.floor((vim.o.lines - height) / 2) - 1, 0),
+    col = math.max(math.floor((vim.o.columns - width) / 2), 0),
+    style = "minimal",
+    border = float.border or "rounded",
+  }
+end
+
 ---@param conf table
 ---@param bufnr integer|nil
 ---@return integer winid
@@ -65,6 +84,12 @@ function M.open_window(conf, bufnr)
     api.nvim_win_set_buf(winid, bufnr)
     api.nvim_set_current_win(winid)
     vim.cmd("vertical resize " .. width)
+    state.winid = winid
+    state.bufnr = bufnr
+    state.layout = layout
+    return winid, bufnr
+  elseif layout == "float" then
+    winid = api.nvim_open_win(bufnr, true, centered_float_opts(conf))
     state.winid = winid
     state.bufnr = bufnr
     state.layout = layout

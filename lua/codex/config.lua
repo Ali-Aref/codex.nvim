@@ -1,11 +1,15 @@
 local M = {}
 
 local defaults = {
-  ---Only regular split windows (no floating). Vertical uses `:vsp` then `vertical resize`.
-  split = "horizontal", -- "horizontal" | "vertical"
+  split = "horizontal", -- "horizontal" | "vertical" | "float"
   ---When split is "vertical", place the Codex column left or right of the current window (`:leftabove vsplit` / `:rightbelow vsplit`).
   vertical_side = "right", -- "left" | "right"
   size = 0.3,
+  float = {
+    width = 0.9,
+    height = 0.85,
+    border = "rounded",
+  },
   codex_cmd = { "codex" },
   focus_after_send = false,
   ---If > 0, after job start sends `/status` then Enter after this many ms (reference behavior; optional).
@@ -23,9 +27,9 @@ function M.setup(opts)
   else
     options = vim.deepcopy(defaults)
   end
-  if options.split ~= "horizontal" and options.split ~= "vertical" then
+  if options.split ~= "horizontal" and options.split ~= "vertical" and options.split ~= "float" then
     vim.notify(
-      ("codex.nvim: split=%s is not supported (use horizontal or vertical); using horizontal"):format(
+      ("codex.nvim: split=%s is not supported (use horizontal, vertical, or float); using horizontal"):format(
         tostring(options.split)
       ),
       vim.log.levels.WARN

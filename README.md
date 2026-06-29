@@ -5,7 +5,7 @@
 [![Stars](https://img.shields.io/github/stars/Ali-Aref/codex.nvim?style=social)](https://github.com/Ali-Aref/codex.nvim/stargazers)
 [![Issues](https://img.shields.io/github/issues/Ali-Aref/codex.nvim)](https://github.com/Ali-Aref/codex.nvim/issues)
 
-Neovim companion for the **Codex CLI**: open Codex in a regular **split terminal** (horizontal or vertical only) and send buffer text from the editor.
+Neovim companion for the **Codex CLI**: open Codex in a split or floating terminal and send buffer text from the editor.
 
 <a href="https://i.ibb.co/rG1yts43/Screenshot-20260414-140758.png">
   <img
@@ -45,9 +45,12 @@ Add a plugin spec (for example under `lua/plugins/codex.lua` if you import `lua/
   "Ali-Aref/codex.nvim",
   config = function()
     require("codex").setup({
-      split = "vertical", -- "horizontal" | "vertical"
-      vertical_side = "right", -- "left" | "right" when vertical
-      size = 0.3,
+      split = "float", -- "horizontal" | "vertical" | "float"
+      float = {
+        width = 0.9,
+        height = 0.85,
+        border = "rounded",
+      },
       codex_cmd = { "codex" },
       -- escape_codex = "jj", -- optional Terminal-mode escape → <C-\><C-n>
     })
@@ -93,9 +96,14 @@ Defaults:
 
 ```lua
 {
-  split = "horizontal", -- "horizontal" | "vertical"
+  split = "horizontal", -- "horizontal" | "vertical" | "float"
   vertical_side = "right", -- "left" | "right" (only for split = "vertical")
   size = 0.3,
+  float = {
+    width = 0.9,
+    height = 0.85,
+    border = "rounded",
+  },
   codex_cmd = { "codex" },
   focus_after_send = false,
   auto_status_delay_ms = 0,
@@ -106,8 +114,11 @@ Defaults:
 - **escape_codex**: optional string. When set (non-empty), registers a **global** Terminal-mode mapping from that lhs to `<C-\><C-n>` (leave terminal mode). Use any lhs Neovim accepts, for example `"jj"` or `"<Esc>"`. Omit the key or leave it unset to register nothing. If you change the value between `setup()` calls, the previous mapping is removed.
 - **split** `horizontal`: `botright` + height (bottom terminal-style split).
 - **split** `vertical`: `:leftabove vsplit` or `:rightbelow vsplit` (see **vertical_side**), then `vertical resize` to **size** (Codex column beside the editor).
+- **split** `float`: opens a centered floating window using **float.width**, **float.height**, and **float.border**.
 - **vertical_side**: `"left"` or `"right"`. Puts the Codex column **left** or **right** of the window that was current when Codex opened. Ignored when **split** is `horizontal`. Invalid values fall back to `"right"`.
 - **size**: for splits, a fraction `≤ 1` is a percentage of lines/columns; `> 1` is a fixed height/width.
+- **float.width** / **float.height**: for floating windows, fraction `≤ 1` means percent of editor width/height; `> 1` is fixed columns/lines.
+- **float.border**: any `nvim_open_win()` border style such as `"rounded"` or `"single"`.
 - **focus_after_send**: after `send(...)` (not `send_selection`), jump to the Codex window and enter terminal mode when the window is open.
 - **`send_selection()`** always opens the Codex window if it was hidden, pastes the payload without pressing Enter for you, then focuses the terminal so you can review and press Enter in the CLI yourself.
 - **auto_status_delay_ms**: if `> 0`, after start sends `/status` then Enter after that delay (optional).
@@ -115,7 +126,14 @@ Defaults:
 Global config before `setup()` (optional). From Lua in `init.lua`:
 
 ```lua
-vim.g.codex_config = { split = "vertical" }
+vim.g.codex_config = {
+  split = "float",
+  float = {
+    width = 0.9,
+    height = 0.85,
+    border = "rounded",
+  },
+}
 ```
 
 ## Behavior notes
@@ -143,6 +161,7 @@ Then:
 - `:lua require('codex').toggle()` — window opens/closes.
 - Visually select lines, `:lua require('codex').send_selection()` — text is sent to the Codex channel (metadata header + selection).
 - Change `split` to `vertical` in setup and reload (expect `:vsp`-style column).
+- Change `split` to `float` in setup and reload (expect a centered floating terminal).
 - With Codex running, quit Neovim and confirm no stray `codex` process (e.g. `pgrep -a codex`).
 
 ## License
