@@ -1,16 +1,16 @@
-# codex.nvim
+# ai-nvim
 
 [![Neovim](https://img.shields.io/badge/Neovim-0.8%2B-57A143?logo=neovim&logoColor=white)](https://neovim.io/)
-[![License](https://img.shields.io/github/license/Ali-Aref/codex.nvim)](./LICENSE)
-[![Stars](https://img.shields.io/github/stars/Ali-Aref/codex.nvim?style=social)](https://github.com/Ali-Aref/codex.nvim/stargazers)
-[![Issues](https://img.shields.io/github/issues/Ali-Aref/codex.nvim)](https://github.com/Ali-Aref/codex.nvim/issues)
+[![License](https://img.shields.io/github/license/Ali-Aref/ai-nvim)](./LICENSE)
+[![Stars](https://img.shields.io/github/stars/Ali-Aref/ai-nvim?style=social)](https://github.com/Ali-Aref/ai-nvim/stargazers)
+[![Issues](https://img.shields.io/github/issues/Ali-Aref/ai-nvim)](https://github.com/Ali-Aref/ai-nvim/issues)
 
 Neovim companion for AI terminal agents: open **Codex CLI** or **Cursor CLI** in a split or floating terminal and send buffer text from the editor.
 
 <a href="https://i.ibb.co/rG1yts43/Screenshot-20260414-140758.png">
   <img
     src="https://i.ibb.co/rG1yts43/Screenshot-20260414-140758.png"
-    alt="aliaref codex.nvim"
+    alt="ai-nvim running an AI CLI in Neovim"
     style="border-radius: 30px;"
   />
 </a>
@@ -34,15 +34,17 @@ Neovim companion for AI terminal agents: open **Codex CLI** or **Cursor CLI** in
 
 ## Installation
 
-Repository: [https://github.com/Ali-Aref/codex.nvim](https://github.com/Ali-Aref/codex.nvim)
+Repository: [https://github.com/Ali-Aref/ai-nvim](https://github.com/Ali-Aref/ai-nvim)
+
+The repository is named `ai-nvim`; the Lua module remains `codex` for compatibility with existing configurations.
 
 ### lazy.nvim
 
-Add a plugin spec (for example under `lua/plugins/codex.lua` if you import `lua/plugins`):
+Add a plugin spec (for example under `lua/plugins/ai-nvim.lua` if you import `lua/plugins`):
 
 ```lua
 {
-  "Ali-Aref/codex.nvim",
+  "Ali-Aref/ai-nvim",
   config = function()
     require("codex").setup({
       split = "float", -- "horizontal" | "vertical" | "float"
@@ -170,9 +172,9 @@ Defaults:
 - **providers.<name>.filetype**: terminal buffer filetype for that provider.
 - **providers.<name>.display_name**: label shown in the provider picker.
 - **split** `horizontal`: `botright` + height (bottom terminal-style split).
-- **split** `vertical`: `:leftabove vsplit` or `:rightbelow vsplit` (see **vertical_side**), then `vertical resize` to **size** (Codex column beside the editor).
+- **split** `vertical`: `:leftabove vsplit` or `:rightbelow vsplit` (see **vertical_side**), then `vertical resize` to **size** (AI CLI column beside the editor).
 - **split** `float`: opens a centered floating window using **float.width**, **float.height**, and **float.border**.
-- **vertical_side**: `"left"` or `"right"`. Puts the Codex column **left** or **right** of the window that was current when Codex opened. Ignored when **split** is `horizontal`. Invalid values fall back to `"right"`.
+- **vertical_side**: `"left"` or `"right"`. Puts the AI CLI column **left** or **right** of the window that was current when it opened. Ignored when **split** is `horizontal`. Invalid values fall back to `"right"`.
 - **size**: for splits, a fraction `≤ 1` is a percentage of lines/columns; `> 1` is a fixed height/width.
 - **float.width** / **float.height**: for floating windows, fraction `≤ 1` means percent of editor width/height; `> 1` is fixed columns/lines.
 - **float.border**: any `nvim_open_win()` border style such as `"rounded"` or `"single"`.
@@ -199,7 +201,7 @@ vim.g.codex_config = {
 
 ## Behavior notes
 
-- **Toggle** hides or shows the window; the Codex job keeps running in the background while the window is closed.
+- **Toggle** hides or shows the window; the active provider's job keeps running in the background while the window is closed.
 - **Close** stops one provider if you pass a provider name, or all providers if you call `close()` with no argument.
 - **Pick provider** changes which backend your existing toggle/send mappings target.
 - **Quit Neovim**: a `VimLeavePre` autocommand calls `close()` so no managed CLI process is left running.
@@ -209,14 +211,14 @@ vim.g.codex_config = {
 For **local hacking**, point lazy at a clone with `dir` instead of the GitHub spec:
 
 ```lua
-{ dir = "~/path/to/codex.nvim", name = "codex.nvim", config = function() require("codex").setup({}) end }
+{ dir = "~/path/to/ai-nvim", name = "ai-nvim", config = function() require("codex").setup({}) end }
 ```
 
 Then:
 
 1. Change files in the clone.
-2. In Neovim: `:Lazy reload codex.nvim`
-3. If Lua modules seem stale: `:lua for k,_ in pairs(package.loaded) do if k:match('^codex') then package.loaded[k]=nil end end` then `:Lazy reload codex.nvim`
+2. In Neovim: `:Lazy reload ai-nvim`
+3. If Lua modules seem stale: `:lua for k,_ in pairs(package.loaded) do if k:match('^codex') then package.loaded[k]=nil end end` then `:Lazy reload ai-nvim`
 
 ### Smoke checks
 

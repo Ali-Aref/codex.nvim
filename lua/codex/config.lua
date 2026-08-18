@@ -2,7 +2,7 @@ local M = {}
 
 local defaults = {
   split = "horizontal", -- "horizontal" | "vertical" | "float"
-  ---When split is "vertical", place the Codex column left or right of the current window (`:leftabove vsplit` / `:rightbelow vsplit`).
+  ---When split is "vertical", place the AI CLI column left or right of the current window (`:leftabove vsplit` / `:rightbelow vsplit`).
   vertical_side = "right", -- "left" | "right"
   size = 0.3,
   float = {
